@@ -16,7 +16,7 @@
 
 <script src="/ipfs/QmVvNwVXecuvQtKxwPuL1L58UPh9EYDU5iQSLjeN3S2sto/jquery-3.2.1.min.js"></script>
 <script src="/ipfs/QmPEJx9Bur2NNDPtBNT5zQ6bBnCkgYtKeNBAWRXx4j5hf2/js/bootstrap.min.js"></script>
-<script src="ipfs.min.js"></script>
+<script src="aes.js"></script>
 <script type="text/javascript">
 check_writability();
 
@@ -52,8 +52,21 @@ function check_writability() {
     });
 }
 
+function generate_key() {
+    return "test";
+}
+
+function encrypt(data, key) {
+    return CryptoJS.AES.encrypt(data, key).toString();
+}
+
+function decrypt(data, key) {
+    return CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
+}
+
 $('#save').click(function() {
-    write($('#input').val(), function(hash) {
+    var key = generate_key();
+    write(encrypt($('#input').val(), key), function(hash) {
         if (!hash) {
             set_status("Failed to store content. Perhaps the gateway isn't writable?");
         } else {
