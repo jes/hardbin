@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<title>Trustless Bin</title>
+<link rel="stylesheet" href="/ipfs/QmPEJx9Bur2NNDPtBNT5zQ6bBnCkgYtKeNBAWRXx4j5hf2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Trustless Bin</h1>
+
+    <span id="status">Loading...</span>
+
+    <textarea class="form-control" id="input"></textarea>
+    <button class="btn btn-primary" id="save">Save</button>
+</div>
+
+<script src="/ipfs/QmVvNwVXecuvQtKxwPuL1L58UPh9EYDU5iQSLjeN3S2sto/jquery-3.2.1.min.js"></script>
+<script src="/ipfs/QmPEJx9Bur2NNDPtBNT5zQ6bBnCkgYtKeNBAWRXx4j5hf2/js/bootstrap.min.js"></script>
+<script src="ipfs.min.js"></script>
+<script type="text/javascript">
+check_writability();
+
+function set_status(txt) {
+    $('#status').text(txt);
+}
+
+function write(content, cb) {
+    $.ajax({
+        url: "/ipfs/",
+        type: "POST",
+        data: content,
+        success: function(data, status, xhr) {
+            cb(xhr.getResponseHeader('Ipfs-Hash'));
+        },
+        timeout: function() {
+            cb("");
+        },
+        error: function() {
+            cb("");
+        },
+    });
+}
+
+function check_writability() {
+    set_status("Checking writability...");
+    write("testing 123", function(hash) {
+        if (hash == 'Qmazm4yVXBrbJfLsscsNdTUwZ6yFMfjNoV26vKHMyjm9qw') {
+            set_status("Ready.");
+        } else {
+            set_status("Sorry, it looks like the gateway is not writable.");
+        }
+    });
+}
+
+$('#save').click(function() {
+    write($('#input').val(), function(hash) {
+        if (!hash) {
+            set_status("Failed to store content. Perhaps the gateway isn't writable?");
+        } else {
+            window.location = '/ipfs/' + hash;
+        }
+    });
+});
+</script>
+</body>
+</html>
