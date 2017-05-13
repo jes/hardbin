@@ -18,8 +18,6 @@
 <script src="/ipfs/QmPEJx9Bur2NNDPtBNT5zQ6bBnCkgYtKeNBAWRXx4j5hf2/js/bootstrap.min.js"></script>
 <script src="aes.js"></script>
 <script type="text/javascript">
-check_writability();
-
 function set_status(txt) {
     $('#status').text(txt);
 }
@@ -52,8 +50,26 @@ function check_writability() {
     });
 }
 
+function load_content() {
+    if (window.location.hash) {
+        key = window.location.hash;
+        key = key.replace('#','');
+        $.ajax({
+            url: "content",
+            success: function(data) {
+                $('#input').val(decrypt(data, key));
+            },
+        });
+    }
+}
+
 function generate_key() {
-    return "test";
+    var alphabet = '01234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var k = '';
+    for (var i = 0; i < 32; i++) {
+        k += alphabet.charAt(Math.random()*alphabet.length);
+    }
+    return k;
 }
 
 function encrypt(data, key) {
@@ -70,9 +86,14 @@ $('#save').click(function() {
         if (!hash) {
             set_status("Failed to store content. Perhaps the gateway isn't writable?");
         } else {
-            window.location = '/ipfs/' + hash;
+            window.location = '/ipfs/' + hash + '#' + key;
         }
     });
+});
+
+$(document).ready(function() {
+    check_writability();
+    load_content();
 });
 </script>
 </body>
