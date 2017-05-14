@@ -24,11 +24,23 @@ function set_status(txt) {
 
 function write(content, cb) {
     $.ajax({
-        url: "/ipfs/",
-        type: "POST",
-        data: content,
+        url: "content",
+        type: "DELETE",
         success: function(data, status, xhr) {
-            cb(xhr.getResponseHeader('Ipfs-Hash'));
+            $.ajax({
+                url: "/ipfs/" + xhr.getResponseHeader('Ipfs-Hash') + "/content",
+                type: "PUT",
+                data: content,
+                success: function(data, status, xhr) {
+                    cb(xhr.getResponseHeader('Ipfs-Hash'));
+                },
+                timeout: function() {
+                    cb("");
+                },
+                error: function() {
+                    cb("");
+                },
+            });
         },
         timeout: function() {
             cb("");
@@ -42,7 +54,7 @@ function write(content, cb) {
 function check_writability() {
     set_status("Checking writability...");
     write("testing 123", function(hash) {
-        if (hash == 'Qmazm4yVXBrbJfLsscsNdTUwZ6yFMfjNoV26vKHMyjm9qw') {
+        if (hash) {
             set_status("Ready.");
         } else {
             set_status("Sorry, it looks like the gateway is not writable.");
