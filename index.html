@@ -64,19 +64,21 @@ function check_writability() {
 
 function load_content() {
     if (window.location.hash) {
+        set_status("Loading encrypted content...");
         key = window.location.hash;
         key = key.replace('#','');
         $.ajax({
             url: "content",
             success: function(data) {
                 $('#input').val(decrypt(data, key));
+                set_status("Ready.");
             },
         });
     }
 }
 
 function generate_key() {
-    var alphabet = '01234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var alphabet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var k = '';
     for (var i = 0; i < 32; i++) {
         k += alphabet.charAt(Math.random()*alphabet.length);
