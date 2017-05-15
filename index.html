@@ -2,16 +2,20 @@
 <html>
 <head>
 <title>Trustful Bin</title>
-<link rel="stylesheet" href="/ipfs/QmPEJx9Bur2NNDPtBNT5zQ6bBnCkgYtKeNBAWRXx4j5hf2/css/bootstrap.min.css">
+<link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="prettify.css">
 </head>
 <body>
 <div class="container">
     <h1>Trustful Bin</h1>
 
-    <span id="status">Loading...</span>
+    <p><span id="status">Loading...</span></p>
 
-    <textarea class="form-control" id="input"></textarea>
-    <button class="btn btn-primary" id="save">Save</button>
+    <div style="display:none" id="display-div"><pre id="display" class="prettyprint"></pre></div>
+
+    <button class="btn btn-primary" id="top-save">Save &#128274;</button>
+    <textarea rows="10" class="form-control" id="input" placeholder="Type your text here, then click Save."></textarea>
+    <button class="btn btn-primary" id="bottom-save">Save &#128274;</button>
 </div>
 
 <div id="modal" class="modal fade" tabindex="-1" role="dialog">
@@ -31,8 +35,9 @@
     </div>
 </div>
 
-<script src="/ipfs/QmVvNwVXecuvQtKxwPuL1L58UPh9EYDU5iQSLjeN3S2sto/jquery-3.2.1.min.js"></script>
-<script src="/ipfs/QmPEJx9Bur2NNDPtBNT5zQ6bBnCkgYtKeNBAWRXx4j5hf2/js/bootstrap.min.js"></script>
+<script src="jquery-3.2.1.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<script src="run_prettify.js"></script>
 <script src="aes.js"></script>
 <script type="text/javascript">
 function set_status(txt) {
@@ -84,6 +89,8 @@ function check_writability() {
             // TODO: add button to check again, or run check_writability in a timer (but don't pop up repeated modals)
             set_status("Sorry, it looks like the gateway is not writable (local gateway).");
         } else {
+            // TODO: check if we can fetch ipfs content from http://localhost:8080/ and offer it as an option if so
+            modal("IPFS Gateway Problem", "<p>This IPFS gateway is not writable.</p><p>");
             // TODO: add button to check again, or run check_writability in a timer (but don't pop up repeated modals)
             set_status("Sorry, it looks like the gateway is not writable (public gateway).");
         }
@@ -94,6 +101,14 @@ function is_local_gateway() {
     return window.location.hostname == 'localhost';
 }
 
+function render(content) {
+    $('#display').text(content);
+    $('#display').removeClass('prettyprinted');
+    PR.prettyPrint();
+    $('#display-div').show();
+    $('#input').val(content);
+}
+
 function load_content() {
     if (window.location.hash) {
         set_status("Loading encrypted content...");
@@ -102,7 +117,7 @@ function load_content() {
         $.ajax({
             url: "content",
             success: function(data) {
-                $('#input').val(decrypt(data, key));
+                render(decrypt(data,key));
                 set_status("Ready.");
             },
         });
@@ -126,7 +141,7 @@ function decrypt(data, key) {
     return CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
 }
 
-$('#save').click(function() {
+$('#top-save,#bottom-save').click(function() {
     var key = generate_key();
     write(encrypt($('#input').val(), key), function(hash) {
         if (!hash) {
