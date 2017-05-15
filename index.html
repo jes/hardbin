@@ -14,7 +14,7 @@
     <div style="display:none" id="display-div"><a class="btn btn-primary" href=".">Create new paste</a><br><pre id="display" class="prettyprint"></pre></div>
 
     <button class="btn btn-primary" id="top-save">Save &#128274;</button>
-    <textarea rows="10" class="form-control" id="input" placeholder="Type your text here, then click Save."></textarea>
+    <textarea rows="10" class="form-control" id="input" placeholder="Type or paste your text here, then click Save."></textarea>
     <button class="btn btn-primary" id="bottom-save">Save &#128274;</button>
 </div>
 
@@ -85,12 +85,12 @@ function check_writability() {
         if (hash) {
             set_status("Ready.");
         } else if (is_local_gateway()) {
-            modal("IPFS Gateway Problem", "<p>Your local IPFS gateway is not writable.</p><p>Kill it and relaunch with <tt>--writable</tt> if you want to save your work:</p><p><pre><code>$ ipfs daemon --writable</code></pre></p>");
+            modal("IPFS Gateway Problem", "<p>It looks like you're viewing this over a local gateway. That's good! That's the safest way. But your gateway is not currently writable, which means you won't be able to save your work.</p><p>Kill it and relaunch with <tt>--writable</tt> if you want to save your work:</p><p><pre><code>$ ipfs daemon --writable</code></pre></p>");
             // TODO: add button to check again, or run check_writability in a timer (but don't pop up repeated modals)
             set_status("Sorry, it looks like the gateway is not writable (local gateway).");
         } else {
             // TODO: check if we can fetch ipfs content from http://localhost:8080/ and offer it as an option if so
-            modal("IPFS Gateway Problem", "<p>This IPFS gateway is not writable.</p><p>");
+            modal("IPFS Gateway Problem", "<p>This IPFS gateway is not writable, which means you won't be able to save your work.</p><p>If you want to save your work, you can either:</p><p>1. view this on the public writable gateway at <a href=\"https://hardbin.com/ipfs/$hash/#frag\">hardbin.com</a>, or</p><p>2. <a href=\"https://ipfs.io/docs/install/\">install IPFS</a>, run a local node, and then view this on your local node at <a href=\"http://localhost:8080/ipfs/$hash/#frag\">localhost:8080</a>.</p>");
             // TODO: add button to check again, or run check_writability in a timer (but don't pop up repeated modals)
             set_status("Sorry, it looks like the gateway is not writable (public gateway).");
         }
