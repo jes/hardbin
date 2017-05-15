@@ -56,10 +56,16 @@ function check_writability() {
     write("testing 123", function(hash) {
         if (hash) {
             set_status("Ready.");
+        } else if (is_local_gateway()) {
+            set_status("Sorry, it looks like the gateway is not writable (local gateway).");
         } else {
-            set_status("Sorry, it looks like the gateway is not writable.");
+            set_status("Sorry, it looks like the gateway is not writable (public gateway).");
         }
     });
+}
+
+function is_local_gateway() {
+    return window.location.hostname == 'localhost';
 }
 
 function load_content() {
