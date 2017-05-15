@@ -14,12 +14,35 @@
     <button class="btn btn-primary" id="save">Save</button>
 </div>
 
+<div id="modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="modal-title">Modal title</h4>
+          </div>
+          <div class="modal-body" id="modal-body">
+            Modal body.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+    </div>
+</div>
+
 <script src="/ipfs/QmVvNwVXecuvQtKxwPuL1L58UPh9EYDU5iQSLjeN3S2sto/jquery-3.2.1.min.js"></script>
 <script src="/ipfs/QmPEJx9Bur2NNDPtBNT5zQ6bBnCkgYtKeNBAWRXx4j5hf2/js/bootstrap.min.js"></script>
 <script src="aes.js"></script>
 <script type="text/javascript">
 function set_status(txt) {
     $('#status').text(txt);
+}
+
+function modal(title, bodyhtml) {
+    $('#modal-title').text(title);
+    $('#modal-body').html(bodyhtml);
+    $('#modal').modal('show');
 }
 
 function write(content, cb) {
@@ -57,8 +80,11 @@ function check_writability() {
         if (hash) {
             set_status("Ready.");
         } else if (is_local_gateway()) {
+            modal("IPFS Gateway Problem", "<p>Your local IPFS gateway is not writable.</p><p>Kill it and relaunch with <tt>--writable</tt> if you want to save your work:</p><p><pre><code>$ ipfs daemon --writable</code></pre></p>");
+            // TODO: add button to check again, or run check_writability in a timer (but don't pop up repeated modals)
             set_status("Sorry, it looks like the gateway is not writable (local gateway).");
         } else {
+            // TODO: add button to check again, or run check_writability in a timer (but don't pop up repeated modals)
             set_status("Sorry, it looks like the gateway is not writable (public gateway).");
         }
     });
@@ -112,6 +138,8 @@ $('#save').click(function() {
 });
 
 $(document).ready(function() {
+    // TODO: only check_writability now if there's no content; otherwise only
+    // check it once they start editing
     check_writability();
     load_content();
 });
