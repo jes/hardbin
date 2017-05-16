@@ -4,18 +4,37 @@
 <title>HardBin</title>
 <link rel="stylesheet" href="bootstrap.min.css">
 <link rel="stylesheet" href="prettify.css">
+<link rel="stylesheet" href="hardbin.css">
 </head>
 <body>
-<div class="container">
-    <h1>HardBin</h1>
+<div id="container">
+<div id="nav">
+    <div id="title-div">
+        <h1>HardBin</h1>
+    </div>
 
-    <p><span id="status">Loading...</span></p>
+    <div id="status-div">
+        IPFS status: <span id="status">Loading...</span>
+    </div>
 
-    <div style="display:none" id="display-div"><a class="btn btn-primary" href=".">Create new paste</a><br><pre id="display" class="prettyprint"></pre></div>
+    <div id="about-div">
+        Created by jes.
+    </div>
 
-    <button class="btn btn-primary" id="top-save">Save &#128274;</button>
-    <textarea rows="10" class="form-control" id="input" placeholder="Type or paste your text here, then click Save."></textarea>
-    <button class="btn btn-primary" id="bottom-save">Save &#128274;</button>
+    <div id="controls-div">
+        <a class="btn btn-default" href=".">Create new paste</a>
+        <button class="btn btn-primary" id="top-save">Save &#128274;</button>
+        <button class="btn btn-primary" id="top-edit" style="display:none">Edit &#128274;</button>
+    </div>
+
+</div>
+
+<div style="clear:both"></div>
+
+<div id="input-div">
+    <div style="display:none" id="display-div"><pre id="display" class="prettyprint"></pre></div>
+    <div id="textarea-div"><textarea autofocus rows="10" class="form-control" id="input" placeholder="Type or paste your text here, then click Save."></textarea></div>
+</div>
 </div>
 
 <div id="modal" class="modal fade" tabindex="-1" role="dialog">
@@ -103,10 +122,22 @@ function is_local_gateway() {
 
 function render(content) {
     $('#display').text(content);
+    $('#input').val(content);
+
     $('#display').removeClass('prettyprinted');
     PR.prettyPrint();
+
     $('#display-div').show();
-    $('#input').val(content);
+    $('#textarea-div').hide();
+    $('#top-save').hide();
+    $('#top-edit').show();
+}
+
+function unrender() {
+    $('#display-div').hide();
+    $('#textarea-div').show();
+    $('#top-save').show();
+    $('#top-edit').hide();
 }
 
 function load_content() {
@@ -117,6 +148,7 @@ function load_content() {
         $.ajax({
             url: "content",
             success: function(data) {
+                // TODO: show an error if we couldn't decrypt the content
                 render(decrypt(data,key));
                 set_status("Ready.");
             },
@@ -141,7 +173,7 @@ function decrypt(data, key) {
     return CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
 }
 
-$('#top-save,#bottom-save').click(function() {
+$('#top-save').click(function() {
     var key = generate_key();
     write(encrypt($('#input').val(), key), function(hash) {
         if (!hash) {
@@ -150,6 +182,10 @@ $('#top-save,#bottom-save').click(function() {
             window.location = '/ipfs/' + hash + '#' + key;
         }
     });
+});
+
+$('#top-edit').click(function() {
+    unrender();
 });
 
 $(document).ready(function() {

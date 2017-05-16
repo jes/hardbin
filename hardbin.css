@@ -1,0 +1,54 @@
+html, body {
+    height: 100%;
+    min-height: 400px;
+}
+
+h1 {
+    margin: 0;
+}
+
+#container {
+    padding-top: 100px;
+    height: 100%;
+}
+
+#nav, #input-div {
+    position: relative;
+    float: left;
+    width: 100%;
+}
+
+#nav {
+    background: #aaa;
+    margin-top: -100px;
+    height: 100px;
+}
+
+#input-div, #textarea-div, #display-div, #display {
+    background: #ccc;
+    height: 100%;
+    padding: 0;
+}
+
+textarea#input {
+    height: 100%;
+}
+
+#title-div, #status-div, #about-div {
+    padding-right: 10px;
+    float: left;
+}
+
+#title-div, #controls-div {
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#status-div, #about-div {
+    padding-top: 20px;
+}
+
+#controls-div {
+    float: right;
+}
