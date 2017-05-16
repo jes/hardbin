@@ -1,15 +1,16 @@
 html, body {
     height: 100%;
     min-height: 400px;
-    color: rgb(255, 243, 40);
 }
 
 h1 {
     margin: 0;
+    font-weight: bold;
+    text-shadow: 0px 0px 8px rgba(255, 243, 40, 0.6);
 }
 
 #container {
-    padding-top: 100px;
+    padding-top: 45px;
     height: 100%;
 }
 
@@ -17,12 +18,13 @@ h1 {
     position: relative;
     float: left;
     width: 100%;
+    color: rgb(255, 243, 40);
 }
 
 #nav {
     background: rgb(34, 61, 74);
-    margin-top: -100px;
-    height: 100px;
+    margin-top: -45px;
+    height: 45px;
 }
 
 #input-div, #textarea-div, #display-div, #display {
@@ -37,9 +39,18 @@ textarea#input {
     font-family: monospace;
     background: rgb(55,68,74);
     color: rgb(255,243,40);
+    border: 1px solid rgb(255,243,40);
 }
 
-#title-div, #status-div, #about-div {
+textarea#input:focus {
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255,243,40,.6);
+}
+
+textarea#input::placeholder {
+    color: rgba(255,243,40,0.4);
+}
+
+#title-div, #status-div {
     padding-right: 10px;
     float: left;
 }
@@ -50,8 +61,8 @@ textarea#input {
     padding-right: 5px;
 }
 
-#status-div, #about-div {
-    padding-top: 20px;
+#status-div {
+    padding-top: 22px;
 }
 
 #controls-div {
