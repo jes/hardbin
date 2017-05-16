@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     min-height: 400px;
+    color: rgb(255, 243, 40);
 }
 
 h1 {
@@ -19,19 +20,23 @@ h1 {
 }
 
 #nav {
-    background: #aaa;
+    background: rgb(34, 61, 74);
     margin-top: -100px;
     height: 100px;
 }
 
 #input-div, #textarea-div, #display-div, #display {
-    background: #ccc;
+    background: rgb(55,68,74);
     height: 100%;
     padding: 0;
+    margin: 0;
 }
 
 textarea#input {
     height: 100%;
+    font-family: monospace;
+    background: rgb(55,68,74);
+    color: rgb(255,243,40);
 }
 
 #title-div, #status-div, #about-div {

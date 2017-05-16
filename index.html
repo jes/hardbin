@@ -3,7 +3,6 @@
 <head>
 <title>HardBin</title>
 <link rel="stylesheet" href="bootstrap.min.css">
-<link rel="stylesheet" href="prettify.css">
 <link rel="stylesheet" href="hardbin.css">
 </head>
 <body>
@@ -13,18 +12,18 @@
         <h1>HardBin</h1>
     </div>
 
-    <div id="status-div">
-        IPFS status: <span id="status">Loading...</span>
+    <div id="about-div">
+        <a href="" id="jes">Learn More</a>.
     </div>
 
-    <div id="about-div">
-        Created by jes.
+    <div id="status-div">
+        <span id="status">Loading...</span>
     </div>
 
     <div id="controls-div">
         <a class="btn btn-default" href=".">Create new paste</a>
         <button class="btn btn-primary" id="top-save">Save &#128274;</button>
-        <button class="btn btn-primary" id="top-edit" style="display:none">Edit &#128274;</button>
+        <button class="btn btn-primary" id="top-edit" style="display:none">Edit &#9998;</button>
     </div>
 
 </div>
@@ -32,7 +31,6 @@
 <div style="clear:both"></div>
 
 <div id="input-div">
-    <div style="display:none" id="display-div"><pre id="display" class="prettyprint"></pre></div>
     <div id="textarea-div"><textarea autofocus rows="10" class="form-control" id="input" placeholder="Type or paste your text here, then click Save."></textarea></div>
 </div>
 </div>
@@ -56,7 +54,6 @@
 
 <script src="jquery-3.2.1.min.js"></script>
 <script src="bootstrap.min.js"></script>
-<script src="run_prettify.js"></script>
 <script src="aes.js"></script>
 <script type="text/javascript">
 function set_status(txt) {
@@ -121,21 +118,16 @@ function is_local_gateway() {
 }
 
 function render(content) {
-    $('#display').text(content);
     $('#input').val(content);
+    $('#input').prop('readonly',true);
 
-    $('#display').removeClass('prettyprinted');
-    PR.prettyPrint();
-
-    $('#display-div').show();
-    $('#textarea-div').hide();
     $('#top-save').hide();
     $('#top-edit').show();
 }
 
 function unrender() {
-    $('#display-div').hide();
-    $('#textarea-div').show();
+    $('#input').prop('readonly',false);
+
     $('#top-save').show();
     $('#top-edit').hide();
 }
@@ -186,6 +178,11 @@ $('#top-save').click(function() {
 
 $('#top-edit').click(function() {
     unrender();
+});
+
+$('#jes').click(function(e) {
+    e.preventDefault();
+    modal("HardBin", "<p>HardBin is a project by <a href=\"http://incoherency.co.uk/\">James Stanley</a>.</p>");
 });
 
 $(document).ready(function() {
