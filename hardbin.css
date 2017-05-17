@@ -68,3 +68,9 @@ textarea#input::placeholder {
 #controls-div {
     float: right;
 }
+
+@media screen and (min-width: 768px) {
+    .wide-modal {
+        width: 75%;
+    }
+}
