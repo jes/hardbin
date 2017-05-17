@@ -27,7 +27,7 @@ h1 {
     height: 45px;
 }
 
-#input-div, #textarea-div, #display-div, #display {
+#input-div, #textarea-div {
     background: rgb(55,68,74);
     height: 100%;
     padding: 0;

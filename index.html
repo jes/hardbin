@@ -77,6 +77,7 @@
 <script src="jquery-3.2.1.min.js"></script>
 <script src="bootstrap.min.js"></script>
 <script src="aes.js"></script>
+<script src="hardbin.js"></script>
 <script type="text/javascript">
 var checked_writability = false;
 
@@ -88,35 +89,6 @@ function modal(title, bodyhtml) {
     $('#modal-title').text(title);
     $('#modal-body').html(bodyhtml);
     $('#modal').modal('show');
-}
-
-function write(content, cb) {
-    $.ajax({
-        url: "content",
-        type: "DELETE",
-        success: function(data, status, xhr) {
-            $.ajax({
-                url: "/ipfs/" + xhr.getResponseHeader('Ipfs-Hash') + "/content",
-                type: "PUT",
-                data: content,
-                success: function(data, status, xhr) {
-                    cb(xhr.getResponseHeader('Ipfs-Hash'));
-                },
-                timeout: function() {
-                    cb("");
-                },
-                error: function() {
-                    cb("");
-                },
-            });
-        },
-        timeout: function() {
-            cb("");
-        },
-        error: function() {
-            cb("");
-        },
-    });
 }
 
 function check_writability() {
@@ -135,10 +107,6 @@ function check_writability() {
             set_status("Error: IPFS gateway is not writable.");
         }
     });
-}
-
-function is_local_gateway() {
-    return window.location.hostname == 'localhost';
 }
 
 function render(content) {
@@ -164,7 +132,7 @@ function load_content() {
         $.ajax({
             url: "content",
             success: function(data) {
-                // TODO: show an error if we couldn't decrypt the content
+                // TODO: show an error if we couldn't decrypt the content?
                 render(decrypt(data,key));
                 set_status("");
             },
@@ -178,28 +146,6 @@ function load_content() {
     } else {
         check_writability();
     }
-}
-
-function generate_key() {
-    var alphabet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    var randombytes = new Uint8Array(32);
-    crypto.getRandomValues(randombytes);
-
-    var k = '';
-    for (var i = 0; i < 32; i++) {
-        var idx = Math.floor(randombytes[i] * alphabet.length / 256);
-        k += alphabet.charAt(idx);
-    }
-    return k;
-}
-
-function encrypt(data, key) {
-    return CryptoJS.AES.encrypt(data, key).toString();
-}
-
-function decrypt(data, key) {
-    return CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
 }
 
 $('#top-save').click(function() {
