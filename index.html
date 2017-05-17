@@ -2,9 +2,9 @@
 <html>
 <head>
 <title>Hardbin</title>
-<link rel="icon" href="h.png">
-<link rel="stylesheet" href="bootstrap.min.css">
-<link rel="stylesheet" href="hardbin.css">
+<link rel="icon" href="img/h.png">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/hardbin.css">
 </head>
 <body>
 <div id="container">
@@ -74,21 +74,13 @@
     </div>
 </div>
 
-<script src="jquery-3.2.1.min.js"></script>
-<script src="bootstrap.min.js"></script>
-<script src="aes.js"></script>
-<script src="hardbin.js"></script>
-<script src="showdown.min.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/aes.js"></script>
+<script src="js/hardbin.js"></script>
+<script src="js/showdown.min.js"></script>
 <script type="text/javascript">
 var checked_writability = false;
-
-$.ajax({
-    url: "README.md",
-    success: function(data) {
-        var c = new showdown.Converter();
-        $('#about-body').html(c.makeHtml(data));
-    },
-});
 
 function set_status(txt) {
     $('#status').text(txt);
@@ -134,7 +126,7 @@ function unrender() {
 }
 
 function load_content() {
-    if (window.location.hash) {
+    if (window.location.hash && window.location.hash != '#about') {
         set_status("Loading encrypted content...");
         key = window.location.hash;
         key = key.replace('#','');
@@ -142,7 +134,9 @@ function load_content() {
             url: "content",
             success: function(data) {
                 // TODO: show an error if we couldn't decrypt the content?
-                render(decrypt(data,key));
+                var plain = decrypt(data,key);
+                if (plain)
+                    render(plain);
                 set_status("");
             },
             error: function() {
@@ -181,6 +175,18 @@ $('#about').click(function(e) {
 
 $(document).ready(function() {
     load_content();
+
+    // load the README modal, and show it if the fragment is #about
+    $.ajax({
+        url: "README.md",
+        success: function(data) {
+            var c = new showdown.Converter();
+            $('#about-body').html(c.makeHtml(data));
+            if (window.location.hash == '#about') {
+                $('#about-modal').modal('show');
+            }
+        },
+    });
 });
 </script>
 </body>
