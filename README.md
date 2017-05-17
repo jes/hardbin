@@ -1,6 +1,6 @@
 # hardbin.
 
-> The world's most secure pastebin*
+> *The world's most secure pastebin* *
 
 (* not verified)
 
