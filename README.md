@@ -2,8 +2,10 @@
 
 > *The world's most secure pastebin, guaranteed* *
 
-Hardbin is an encrypted pastebin, with the decryption key passed in the
-URL fragment, and the code and data served securely with IPFS.
+Hardbin is an encrypted pastebin, with the decryption key passed in
+the URL fragment, and the code and data served securely with
+[IPFS](https://ipfs.io/). (IPFS is a distributed content-addressable storage
+system that is web-compatible; it's basically bittorrent for the web).
 
 Compared to a traditional encrypted pastebin (e.g.
 [ZeroBin](https://zerobin.net)), this means neither the code nor the
