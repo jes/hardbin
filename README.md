@@ -56,6 +56,8 @@ You can "self-host" hardbin as follows:
 
 If you want to use any custom modifications, you can simply make them, publish your new code, and then it's available and ready to use. It's just as much a first-class citizen as the version in this git repo.
 
+Of course, pull requests are always welcome for improvements that might be useful to others.
+
 ## Security threats
 
 You still need to share the paste URL securely, otherwise a third-party can read it as easily as anybody else can.
