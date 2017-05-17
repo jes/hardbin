@@ -2,13 +2,14 @@
 
 > *The world's most secure pastebin, guaranteed* *
 
-Hardbin is an encrypted pastebin, with the decryption key passed in the URL
-fragment, and the code and data served securely with IPFS.
+Hardbin is an encrypted pastebin, with the decryption key passed in the
+URL fragment, and the code and data served securely with IPFS.
 
-This means neither the code nor the data can be modified by the pastebin
-server operator. This means there is no possibility for the server
-operator to insert malicious code to exfiltrate the content of the
-pastes. It's the perfect pastebin.
+Compared to a traditional encrypted pastebin (e.g.
+[ZeroBin](https://zerobin.net)), this means neither the code nor the
+data can be modified by the pastebin server operator. This means there
+is no possibility for the server operator to insert malicious code to
+exfiltrate the plaintext or decryption key It's the perfect pastebin.
 
 (* not guaranteed)
 
@@ -37,11 +38,10 @@ IPFS). [IPFSstore](https://ipfsstore.it/) is a service offering to pin
 content for a very, *very* small fee. Failing that, content will stay
 around as long as it is cached on any node (e.g. a public gateway).
 
-If you want to send a link to hardbin which will automatically load this
-README, append ```#about``` as the fragment. For example,
-[https://hardbin.com/#about](https://hardbin.com/#about) will always load the
-latest version of the
-code and show the README text.
+If you want to send a link to hardbin which will automatically
+load this README, append ```#about``` as the fragment. For example,
+[https://hardbin.com/#about](https://hardbin.com/#about) will always
+load the latest version of the code and show the README text.
 
 ### Local gateway
 
@@ -110,6 +110,10 @@ creating pastes, as it would be trivial to create a malicious version
 that looks identical. The best thing to do is write down the hash the
 first time you use it, and always use the same hash. If you want to
 upgrade to a new version of the software, you'll need to update your hash.
+
+If you don't use a local (or otherwise trusted) IPFS gateway, then
+the gateway server operator can perform all the same attacks that a
+traditional encrypted pastebin operator could perform.
 
 I don't recommend using Hardbin for highly critical stuff as the code
 has not been thoroughly audited by anyone but me. If you want to audit
