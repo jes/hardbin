@@ -82,6 +82,8 @@
 <script type="text/javascript">
 var checked_writability = false;
 
+var original_frag = window.location.hash;
+
 function set_status(txt) {
     $('#status').text(txt);
 }
@@ -171,6 +173,11 @@ $('#top-edit').click(function() {
 $('#about').click(function(e) {
     e.preventDefault();
     $('#about-modal').modal('show');
+    window.location.hash = '#about';
+});
+
+$('#about-modal').on('hide.bs.modal', function() {
+    window.location.hash = original_frag;
 });
 
 $(document).ready(function() {
