@@ -15,6 +15,11 @@ exfiltrate the plaintext or decryption key It's the perfect pastebin.
 
 ## Usage
 
+Note that the security guarantees of hardbin only apply when accessing
+it over a local (or otherwise trusted) gateway. If you access it over
+a gateway that you do not control, then the security model degrades to
+be equivalent to that of traditional encrypted pastebins.
+
 If you trust the hardbin.com server and hosting company and the HTTPS
 CA infrastructure, you can always find the latest version of hardbin by
 going straight to [hardbin.com](https://hardbin.com/).
@@ -45,12 +50,18 @@ load the latest version of the code and show the README text.
 
 ### Local gateway
 
-A local gateway that you run yourself is the safest way to use Hardbin.
+A local gateway that you run yourself is the safest way to use hardbin.
 
-Run the gateway with ```ipfs daemon --writable```, else you won't be
-able to publish anything.
+Follow the <a href="https://ipfs.io/docs/getting-started/">IPFS Getting
+Started guide</a>, but make sure to run the gateway with ```ipfs daemon
+--writable```, else you won't be able to publish anything.
 
-### Ordinary public gateway
+You can then install a browser extension such as <a
+href="https://chrome.google.com/webstore/detail/ipfs-station/kckhgoigikkadogfdiojcblegfhdnjei">IPFS
+Station</a> for Chrome to automatically redirect IPFS paths to your
+local gateway.
+
+### Public gateway
 
 Any public gateway will work fine for viewing content, but won't be able
 to publish anything. Using a public gateway also trusts the public gateway
@@ -68,7 +79,7 @@ services.
 
 ## How it works
 
-The Hardbin code is served out of IPFS. The user then inputs the
+The hardbin code is served out of IPFS. The user then inputs the
 content. When the content is published, a key is generated and the
 content is encrypted in javascript in the browser. The new content is
 then pushed to the IPFS gateway.
@@ -115,7 +126,7 @@ If you don't use a local (or otherwise trusted) IPFS gateway, then
 the gateway server operator can perform all the same attacks that a
 traditional encrypted pastebin operator could perform.
 
-I don't recommend using Hardbin for highly critical stuff as the code
+I don't recommend using hardbin for highly critical stuff as the code
 has not been thoroughly audited by anyone but me. If you want to audit
 it please contact me.
 
