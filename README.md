@@ -1,6 +1,8 @@
 # hardbin.
 
-> The world's most secure pastebin
+> The world's most secure pastebin*
+
+(* not verified)
 
 Hardbin is an encrypted pastebin, with code and data served securely from IPFS.
 
