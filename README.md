@@ -67,8 +67,6 @@ You still need to share the paste URL securely, otherwise a third-party can read
 
 You need to make very sure to use a known-good version of the code when creating pastes, as it would be trivial to create a malicious version that looks identical. The best thing to do is write down the hash the first time you use it, and always use the same hash. If you want to upgrade to a new version of the software, you'll need to update your hash.
 
-Hardbin currently uses ```Math.random()``` to generate keys.
-
 I don't recommend using Hardbin for highly critical stuff as the code has not been thoroughly audited by anyone but me. If you want to audit it please contact me.
 
 ## Contact me

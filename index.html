@@ -182,9 +182,14 @@ function load_content() {
 
 function generate_key() {
     var alphabet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    var randombytes = new Uint8Array(32);
+    crypto.getRandomValues(randombytes);
+
     var k = '';
     for (var i = 0; i < 32; i++) {
-        k += alphabet.charAt(Math.random()*alphabet.length);
+        var idx = Math.floor(randombytes[i] * alphabet.length / 256);
+        k += alphabet.charAt(idx);
     }
     return k;
 }
