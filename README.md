@@ -11,6 +11,7 @@ there is no possibility for the server operator to insert malicious code to exfi
 of the pastes. It's the perfect pastebin.
 
 ## Usage
+
 If you trust the hardbin.com server and the HTTPS CA infrastructure, you can always use the latest version of hardbin by going straight to [hardbin.com](https://hardbin.com/).
 
 The github repo should link directly to the latest IPFS hash.
