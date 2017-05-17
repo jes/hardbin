@@ -4,7 +4,7 @@
 
 (* not verified)
 
-Hardbin is an encrypted pastebin, with code and data served securely from IPFS.
+Hardbin is an encrypted pastebin, with the decryption key in the URL fragment, and the code and data served securely with IPFS.
 
 This means neither the code nor the data can be modified by the pastebin server operator. This means
 there is no possibility for the server operator to insert malicious code to exfiltrate the content
