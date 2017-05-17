@@ -17,7 +17,7 @@
     </div>
 
     <div id="controls-div">
-        <button class="btn btn-default" id="jes">About</button>
+        <button class="btn btn-default" id="about">About</button> |
         <a class="btn btn-default" href=".">New</a>
         <button class="btn btn-primary" id="top-save">Save &#128274;</button>
         <button class="btn btn-primary" id="top-edit" style="display:none">Edit &#9998;</button>
@@ -30,6 +30,23 @@
 <div id="input-div">
     <div id="textarea-div"><textarea autofocus rows="10" class="form-control" id="input" placeholder="Type or paste your text here, then click Save."></textarea></div>
 </div>
+</div>
+
+<div id="about-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Hardbin</h4>
+          </div>
+          <div class="modal-body">
+            <p>Good article of description here.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+    </div>
 </div>
 
 <div id="modal" class="modal fade" tabindex="-1" role="dialog">
@@ -53,6 +70,8 @@
 <script src="bootstrap.min.js"></script>
 <script src="aes.js"></script>
 <script type="text/javascript">
+var checked_writability = false;
+
 function set_status(txt) {
     $('#status').text(txt);
 }
@@ -93,19 +112,19 @@ function write(content, cb) {
 }
 
 function check_writability() {
-    set_status("Checking writability...");
+    checked_writability = true;
+    set_status("Checking gateway for writability...");
     write("testing 123", function(hash) {
         if (hash) {
             set_status("");
         } else if (is_local_gateway()) {
             modal("IPFS Gateway Problem", "<p>It looks like you're viewing this over a local gateway. That's good! That's the safest way. But your gateway is not currently writable, which means you won't be able to save your work.</p><p>Kill it and relaunch with <tt>--writable</tt> if you want to save your work:</p><p><pre><code>$ ipfs daemon --writable</code></pre></p>");
-            // TODO: add button to check again, or run check_writability in a timer (but don't pop up repeated modals)
-            set_status("Sorry, it looks like the gateway is not writable (local gateway).");
+            set_status("Warning: IPFS gateway is not writable.");
         } else {
+            var pathwithfrag = window.location.pathname + window.location.hash;
             // TODO: check if we can fetch ipfs content from http://localhost:8080/ and offer it as an option if so
-            modal("IPFS Gateway Problem", "<p>This IPFS gateway is not writable, which means you won't be able to save your work.</p><p>If you want to save your work, you can either:</p><p>1. view this on the public writable gateway at <a href=\"https://hardbin.com/ipfs/$hash/#frag\">hardbin.com</a>, or</p><p>2. <a href=\"https://ipfs.io/docs/install/\">install IPFS</a>, run a local node, and then view this on your local node at <a href=\"http://localhost:8080/ipfs/$hash/#frag\">localhost:8080</a>.</p>");
-            // TODO: add button to check again, or run check_writability in a timer (but don't pop up repeated modals)
-            set_status("Sorry, it looks like the gateway is not writable (public gateway).");
+            modal("IPFS Gateway Problem", "<p>This IPFS gateway is not writable, which means you won't be able to save your work.</p><p>If you want to save your work, you can either:</p><p>1. view this on the public writable gateway at <a href=\"https://hardbin.com" + pathwithfrag + "\">hardbin.com</a>, or</p><p>2. <a href=\"https://ipfs.io/docs/install/\">install IPFS</a>, run a local node with <tt>ipfs daemon --writable</tt>, and then view this on your local node at <a href=\"http://localhost:8080" + pathwithfrag + "\">localhost:8080</a>.</p>");
+            set_status("Warning: IPFS gateway is not writable.");
         }
     });
 }
@@ -141,7 +160,15 @@ function load_content() {
                 render(decrypt(data,key));
                 set_status("");
             },
+            error: function() {
+                check_writability();
+            },
+            timeout: function() {
+                check_writability();
+            }
         });
+    } else {
+        check_writability();
     }
 }
 
@@ -176,17 +203,15 @@ $('#top-save').click(function() {
 $('#top-edit').click(function() {
     unrender();
     $('#input').focus();
+    check_writability();
 });
 
-$('#jes').click(function(e) {
+$('#about').click(function(e) {
     e.preventDefault();
-    modal("Hardbin", "<p>Hardbin is a project by <a href=\"http://incoherency.co.uk/\">James Stanley</a>.</p><p>More information to come here.</p>");
+    $('#about-modal').modal('show');
 });
 
 $(document).ready(function() {
-    // TODO: only check_writability now if there's no content; otherwise only
-    // check it once they start editing
-    check_writability();
     load_content();
 });
 </script>
