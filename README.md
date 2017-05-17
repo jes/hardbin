@@ -37,6 +37,12 @@ IPFS). [IPFSstore](https://ipfsstore.it/) is a service offering to pin
 content for a very, *very* small fee. Failing that, content will stay
 around as long as it is cached on any node (e.g. a public gateway).
 
+If you want to send a link to hardbin which will automatically load this
+README, append ```#about``` as the fragment. For example,
+[https://hardbin.com/#about](https://hardbin.com/#about) will always load the
+latest version of the
+code and show the README text.
+
 ### Local gateway
 
 A local gateway that you run yourself is the safest way to use Hardbin.
