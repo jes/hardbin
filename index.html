@@ -118,13 +118,13 @@ function check_writability() {
         if (hash) {
             set_status("");
         } else if (is_local_gateway()) {
-            modal("IPFS Gateway Problem", "<p>It looks like you're viewing this over a local gateway. That's good! That's the safest way. But your gateway is not currently writable, which means you won't be able to save your work.</p><p>Kill it and relaunch with <tt>--writable</tt> if you want to save your work:</p><p><pre><code>$ ipfs daemon --writable</code></pre></p>");
-            set_status("Warning: IPFS gateway is not writable.");
+            modal("IPFS Gateway Problem", "<p>It looks like you're accessing Hardbin over a local gateway. That's good! That's the safest way. But your gateway is not currently writable, which means you won't be able to save your work.</p><p>Kill it and relaunch with <tt>--writable</tt> if you want to save your work:</p><p><pre><code>$ ipfs daemon --writable</code></pre></p>");
+            set_status("Error: IPFS gateway is not writable.");
         } else {
             var pathwithfrag = window.location.pathname + window.location.hash;
             // TODO: check if we can fetch ipfs content from http://localhost:8080/ and offer it as an option if so
             modal("IPFS Gateway Problem", "<p>This IPFS gateway is not writable, which means you won't be able to save your work.</p><p>If you want to save your work, you can either:</p><p>1. view this on the public writable gateway at <a href=\"https://hardbin.com" + pathwithfrag + "\">hardbin.com</a>, or</p><p>2. <a href=\"https://ipfs.io/docs/install/\">install IPFS</a>, run a local node with <tt>ipfs daemon --writable</tt>, and then view this on your local node at <a href=\"http://localhost:8080" + pathwithfrag + "\">localhost:8080</a>.</p>");
-            set_status("Warning: IPFS gateway is not writable.");
+            set_status("Error: IPFS gateway is not writable.");
         }
     });
 }
@@ -193,7 +193,7 @@ $('#top-save').click(function() {
     var key = generate_key();
     write(encrypt($('#input').val(), key), function(hash) {
         if (!hash) {
-            set_status("Failed to store content. Perhaps the gateway isn't writable?");
+            set_status("Error: Failed to store content. Is the gateway writable?");
         } else {
             window.location = '/ipfs/' + hash + '#' + key;
         }
