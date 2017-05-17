@@ -38,9 +38,9 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Hardbin</h4>
+            <h4 class="modal-title">About</h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" id="about-body">
             <p>Hardbin is an encrypted pastebin using IPFS. It was created by <a href="http://incoherency.co.uk/">James Stanley</a>.</p>
             <p>Unlike other pastebins, Hardbin does not require you to trust any server. You can run a local <a href="https://ipfs.io/">IPFS</a>
             gateway and then you can always be certain that no remote server is able to modify the code you're running. In particular, this
@@ -78,8 +78,17 @@
 <script src="bootstrap.min.js"></script>
 <script src="aes.js"></script>
 <script src="hardbin.js"></script>
+<script src="showdown.min.js"></script>
 <script type="text/javascript">
 var checked_writability = false;
+
+$.ajax({
+    url: "README.md",
+    success: function(data) {
+        var c = new showdown.Converter();
+        $('#about-body').html(c.makeHtml(data));
+    },
+});
 
 function set_status(txt) {
     $('#status').text(txt);
