@@ -83,6 +83,9 @@
 var checked_writability = false;
 
 var original_frag = window.location.hash;
+if (original_frag == '#about') {
+    original_frag = '';
+}
 
 function set_status(txt) {
     $('#status').text(txt);
