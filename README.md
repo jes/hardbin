@@ -1,19 +1,28 @@
 # hardbin.
 
-> *The world's most secure pastebin, guaranteed* *
+> *The world's most secure encrypted pastebin, guaranteed* *
 
-Hardbin is an encrypted pastebin, with the decryption key passed in
-the URL fragment, and the code and data served securely with
-[IPFS](https://ipfs.io/). (IPFS is a distributed content-addressable storage
-system that is web-compatible; it's basically bittorrent for the web).
+Hardbin is an encrypted pastebin, with the decryption key passed
+in the URL fragment, and the code and data served securely with
+[IPFS](https://ipfs.io/). (IPFS is a distributed content-addressable
+storage system that is web-compatible; it's basically bittorrent for
+the web).
+
+If you're viewing this on hardbin.com, then you're using it via the
+hardbin.com public IPFS gateway. The IPFS gateway you use has the same
+capabilities as an ordinary web server (i.e. it can modify content at
+will), so you should make sure to use a gateway you trust. Running
+a local gateway is the best option. Start with the IPFS [Getting
+Started](https://ipfs.io/docs/getting-started/) guide.
 
 Compared to a traditional encrypted pastebin (e.g.
-[ZeroBin](https://zerobin.net)), this means neither the code nor the
-data can be modified by the pastebin server operator. This means there
-is no possibility for the server operator to insert malicious code to
-exfiltrate the plaintext or decryption key. It's the perfect pastebin.
+[ZeroBin](https://zerobin.net)), when used over a trusted gateway, neither
+the Hardbin code nor the data can be modified as the content hashes are
+cryptographically verified.  This means there is no possibility for the
+server operator to insert malicious code to exfiltrate the plaintext or
+decryption key. It's the perfect encrypted pastebin.
 
-(* not guaranteed)
+(* not a guarantee)
 
 ## Usage
 
@@ -81,13 +90,15 @@ services.
 
 ## How it works
 
-The hardbin code is served out of IPFS. The user then inputs the
-content. When the content is published, a key is generated and the
-content is encrypted in javascript in the browser. The new content is
-then pushed to the IPFS gateway.
+The hardbin code is served out of IPFS. The user then inputs
+the content. When the content is published, a key is generated
+using the ```crypto.getRandomValues()``` API and the content
+is encrypted in javascript in the browser using AES-256 via
+[Crypto-JS](https://github.com/brix/crypto-js). The new content is then
+pushed to the IPFS gateway.
 
 The decryption key is passed in the URL fragment, and the URL can be
-shared with others.
+shared with anybody.
 
 As long as the IPFS gateway is not compromised, and the user visits a
 known-good hash in the first place, there is no possibility for anybody
