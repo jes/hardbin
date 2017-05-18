@@ -17,16 +17,16 @@ Started](https://ipfs.io/docs/getting-started/) guide.
 
 Compared to a traditional encrypted pastebin (e.g.
 [ZeroBin](https://zerobin.net)), when used over a trusted gateway, neither
-the Hardbin code nor the data can be modified as the content hashes are
-cryptographically verified.  This means there is no possibility for the
+the code nor the data can be modified as the content hashes are
+cryptographically verified by IPFS. This means there is no possibility for a
 server operator to insert malicious code to exfiltrate the plaintext or
 decryption key. It's the perfect encrypted pastebin.
 
-(* not a guarantee)
+(* this is not a guarantee)
 
 ## Usage
 
-Note that the security guarantees of hardbin only apply when accessing
+Note that the security benefits of hardbin only apply when accessing
 it over a local (or otherwise trusted) gateway. If you access it over
 a gateway that you do not control, then the security model degrades to
 be equivalent to that of traditional encrypted pastebins.
