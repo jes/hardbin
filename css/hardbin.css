@@ -6,6 +6,9 @@ html, body {
 h1 {
     margin: 0;
     font-weight: bold;
+}
+
+#title-div h1 {
     text-shadow: 0px 0px 8px rgba(255, 243, 40, 0.6);
 }
 
