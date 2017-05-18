@@ -58,7 +58,7 @@
 </div>
 
 <div id="modal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog wide-modal" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -82,10 +82,7 @@
 <script type="text/javascript">
 var checked_writability = false;
 
-var original_frag = window.location.hash;
-if (original_frag == '#about') {
-    original_frag = '';
-}
+var decryption_key;
 
 function set_status(txt) {
     $('#status').text(txt);
@@ -130,18 +127,35 @@ function unrender() {
     $('#top-edit').hide();
 }
 
+function show_pin_instructions() {
+    var pathwithfrag = window.location.pathname + '#' + decryption_key;
+    var fulllocation = window.location.href;
+    var hash = window.location.pathname;
+    hash = hash.replace('/ipfs/', '');
+    hash = hash.replace('/', '');
+    fulllocation = fulllocation.replace('-firstview', '');
+    var is_hardbincom = window.location.hostname == 'hardbin.com';
+    modal("Content published", "<p>Congratulations! Your content has been published to the IPFS gateway. It is now reachable by any node on the IPFS network, using the following URL:</p><p><a style=\"word-wrap:break-word\" href=" + fulllocation + ">" + fulllocation + "</a></p>" + (!is_hardbincom ? "<p>Or on the hardbin.com public gateway: <a style=\"word-wrap:break-word\" href=\"https://hardbin.com" + pathwithfrag + "\">https://hardbin.com" + pathwithfrag + "</a></p>" : '') + "<p>The content will eventually disappear from the IPFS network as it is not pinned anywhere. To make the content persistent, you can either pin it on an IPFS node you control:</p><p><tt>ipfs pin add " + hash + "</tt></p><p>Or use a service like ipfsstore.it to pin it for you.</p>");
+}
+
 function load_content() {
     if (window.location.hash && window.location.hash != '#about') {
         set_status("Loading encrypted content...");
         key = window.location.hash;
+        key = key.replace('-firstview','');
         key = key.replace('#','');
+        decryption_key = key;
         $.ajax({
             url: "content",
             success: function(data) {
                 // TODO: show an error if we couldn't decrypt the content?
                 var plain = decrypt(data,key);
-                if (plain)
+                if (plain) {
                     render(plain);
+                    if (window.location.hash.indexOf('firstview') != -1)
+                        show_pin_instructions();
+                    window.location.hash = '#' + decryption_key;
+                }
                 set_status("");
             },
             error: function() {
@@ -162,7 +176,7 @@ $('#top-save').click(function() {
         if (!hash) {
             set_status("Error: Failed to store content. Is the gateway writable?");
         } else {
-            window.location = '/ipfs/' + hash + '#' + key;
+            window.location = '/ipfs/' + hash + '#' + key + '-firstview';
         }
     });
 });
@@ -180,7 +194,7 @@ $('#about').click(function(e) {
 });
 
 $('#about-modal').on('hide.bs.modal', function() {
-    window.location.hash = original_frag;
+    window.location.hash = '#' + decryption_key;
 });
 
 $(document).ready(function() {
