@@ -154,7 +154,7 @@ function load_content() {
                     render(plain);
                     if (window.location.hash.indexOf('firstview') != -1)
                         show_pin_instructions();
-                    window.location.hash = '#' + decryption_key;
+                    history.replaceState(undefined, undefined, '#' + decryption_key);
                 }
                 set_status("");
             },
@@ -190,11 +190,11 @@ $('#top-edit').click(function() {
 $('#about').click(function(e) {
     e.preventDefault();
     $('#about-modal').modal('show');
-    window.location.hash = '#about';
+    history.replaceState(undefined, undefined, '#about');
 });
 
 $('#about-modal').on('hide.bs.modal', function() {
-    window.location.hash = '#' + decryption_key;
+    history.replaceState(undefined, undefined, '#' + decryption_key);
 });
 
 $(document).ready(function() {
