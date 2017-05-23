@@ -22,7 +22,7 @@ function constant_time_compare(a, b) {
 
 function encrypt(data, key) {
     var unauthed = CryptoJS.AES.encrypt(data, key);
-    var mac = CryptoJS.HmacSHA256(data, key);
+    var mac = CryptoJS.HmacSHA256(unauthed, key);
     return mac.toString() + unauthed.toString();
 }
 
