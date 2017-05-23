@@ -2,12 +2,38 @@
  * make sure to also load jquery + aes.js
  */
 
+function constant_time_compare(a, b) {
+    if (typeof a !== 'string') {
+        throw "String expected, got " + (typeof a);
+    }
+    if (typeof b !== 'string') {
+        throw "String expected, got " + (typeof b);
+    }
+    if (a.length !== b.length) {
+        return false;
+    }
+    var d = 0;
+    var i = 0;
+    for (i = 0; i < a.length; i++) {
+        d |= a.charAt(i) ^ b.charAt(i);
+    }
+    return d === 0;
+}
+
 function encrypt(data, key) {
-    return CryptoJS.AES.encrypt(data, key).toString();
+    var unauthed = CryptoJS.AES.encrypt(data, key);
+    var mac = CryptoJS.HmacSHA256(data, key);
+    return mac.toString() + unauthed.toString();
 }
 
 function decrypt(data, key) {
-    return CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
+    var mac = data.substring(0, 32);
+    var message = data.substring(32);
+    var calc = CryptoJS.HmacSHA256(message, key).toString();
+    if (!constant_time_compare(calc, mac)) {
+        throw "Invalid message authentication code!";
+    }
+    return CryptoJS.AES.decrypt(message, key).toString(CryptoJS.enc.Utf8);
 }
 
 function generate_key() {
