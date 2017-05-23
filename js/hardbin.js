@@ -15,7 +15,7 @@ function constant_time_compare(a, b) {
     var d = 0;
     var i = 0;
     for (i = 0; i < a.length; i++) {
-        d |= a.charAt(i) ^ b.charAt(i);
+        d |= a.charCodeAt(i) ^ b.charCodeAt(i);
     }
     return d === 0;
 }
