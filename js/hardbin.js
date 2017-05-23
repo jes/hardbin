@@ -41,13 +41,7 @@ function generate_key() {
 
     var randombytes = new Uint8Array(32);
     crypto.getRandomValues(randombytes);
-
-    var k = '';
-    for (var i = 0; i < 32; i++) {
-        var idx = Math.floor(randombytes[i] * alphabet.length / 256);
-        k += alphabet.charAt(idx);
-    }
-    return k;
+    return base58.encode(Array.from(randombytes));
 }
 
 function is_local_gateway() {
