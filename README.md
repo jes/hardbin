@@ -119,7 +119,7 @@ You can "self-host" hardbin as follows:
 ## Custom modifications
 
 If you want to use any custom modifications, you can simply make them,
-publish your new code on IPFS with ```ipfs addd```, and then it's
+publish your new code on IPFS with ```ipfs add```, and then it's
 available and ready to use. It's just as much a first-class citizen as
 the version in this git repo, and you're equally welcome to access it
 via the hardbin.com public writable gateway.
