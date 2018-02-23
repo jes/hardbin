@@ -68,8 +68,8 @@ Started guide</a>, but make sure to run the gateway with ```ipfs daemon
 --writable```, else you won't be able to publish anything.
 
 You can then install a browser extension such as <a
-href="https://chrome.google.com/webstore/detail/ipfs-station/kckhgoigikkadogfdiojcblegfhdnjei">IPFS
-Station</a> for Chrome to automatically redirect IPFS paths to your
+href="https://chrome.google.com/webstore/detail/ipfs-companion/nibjojkomfdiaoajekhjakgkdhaomnch">IPFS
+Companion</a> for Chrome to automatically redirect IPFS paths to your
 local gateway.
 
 ### Public gateway
