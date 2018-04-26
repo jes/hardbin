@@ -1,220 +1,91 @@
 <!doctype html>
 <html>
+
 <head>
-<title>Hardbin</title>
-<link rel="icon" href="img/h.png">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/hardbin.css">
+    <title>Hardbin</title>
+    <link rel="icon" href="img/h.png">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/hardbin.css">
 </head>
+
 <body>
-<div id="container">
-<div id="nav">
-    <div id="title-div">
-        <h1>hardbin.</h1>
-    </div>
+    <div id="container">
+        <div id="nav">
+            <div id="title-div">
+                <h1>hardbin.</h1>
+            </div>
 
-    <div id="status-div">
-        <span id="status">Loading...</span>
-    </div>
+            <div id="status-div">
+                <span id="status">Loading...</span>
+            </div>
 
-    <div id="controls-div">
-        <button class="btn btn-default" id="about">About</button> |
-        <a class="btn btn-default" href=".">New</a>
-        <button class="btn btn-primary" id="top-save">Publish</button>
-        <button class="btn btn-primary" id="top-edit" style="display:none">Edit</button>
-    </div>
+            <div id="controls-div">
+                <button class="btn btn-default" id="about">About</button> |
+                <a class="btn btn-default" href=".">New</a>
+                <button class="btn btn-primary" id="top-upload">Upload</button> 
+                <button class="btn btn-primary" id="top-save">Publish</button>
+                <button class="btn btn-primary" id="top-edit" style="display:none">Edit</button>
+            </div>
 
-</div>
+        </div>
 
-<div style="clear:both"></div>
+        <div style="clear:both"></div>
 
-<div id="input-div">
-    <div id="textarea-div"><textarea autofocus rows="10" class="form-control" id="input" placeholder="Input your text here, then click Publish."></textarea></div>
-</div>
-</div>
-
-<div id="about-modal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog wide-modal" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">About</h4>
-          </div>
-          <div class="modal-body" id="about-body">
-            <p>Hardbin is an encrypted pastebin using IPFS. It was created by <a href="http://incoherency.co.uk/">James Stanley</a>.</p>
-            <p>Unlike other pastebins, Hardbin does not require you to trust any server. You can run a local <a href="https://ipfs.io/">IPFS</a>
-            gateway and then you can always be certain that no remote server is able to modify the code you're running. In particular, this
-            means no remote server is able to insert malicious code to exfiltrate the content of your pastes.</p>
-            <p>There is a public writable gateway available at <a href="https://hardbin.com/">hardbin.com</a> which allows creation of pastes
-            without running a local gateway.</p>
-            <p>If you want to learn more, please see <a href="README.md">README.md</a>.</p>
-            <p>If you want to contribute to Hardbin development, please see the <a href="https://github.com/jes/hardbin/">github repo</a>.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+        <div id="input-div">
+            <div id="textarea-div">
+                <textarea autofocus rows="10" class="form-control" id="input" placeholder="Input your text here, then click Publish."></textarea>
+            </div>
+            <div id="content-div" class="hidden"></div>
         </div>
     </div>
-</div>
 
-<div id="modal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog wide-modal" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="modal-title">Modal title</h4>
-          </div>
-          <div class="modal-body" id="modal-body">
-            Modal body.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+    <div id="about-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog wide-modal" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body" id="about-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/aes.js"></script>
-<script src="js/jsbn.js"></script>
-<script src="js/jsbn2.js"></script>
-<script src="js/base58.js"></script>
-<script src="js/hardbin.js"></script>
-<script src="js/showdown.min.js"></script>
-<script type="text/javascript">
-var checked_writability = false;
+    <div id="modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog wide-modal" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    Modal body.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-var decryption_key = '';
-
-function set_status(txt) {
-    $('#status').text(txt);
-}
-
-function modal(title, bodyhtml) {
-    $('#modal-title').text(title);
-    $('#modal-body').html(bodyhtml);
-    $('#modal').modal('show');
-}
-
-function check_writability() {
-    checked_writability = true;
-    set_status("Checking gateway for writability...");
-    write("testing 123", function(hash) {
-        if (hash) {
-            set_status("");
-        } else if (is_local_gateway()) {
-            modal("IPFS Gateway Problem", "<p>It looks like you're accessing Hardbin over a local gateway. That's good! That's the safest way. But your gateway is not currently writable, which means you won't be able to save your work.</p><p>Kill it and relaunch with <tt>--writable</tt> if you want to save your work:</p><p><pre><code>$ ipfs daemon --writable</code></pre></p>");
-            set_status("Error: IPFS gateway is not writable.");
-        } else {
-            var pathwithfrag = window.location.pathname + window.location.hash;
-            // TODO: check if we can fetch ipfs content from http://localhost:8080/ and offer it as an option if so
-            modal("IPFS Gateway Problem", "<p>This IPFS gateway is not writable, which means you won't be able to save your work.</p><p>If you want to save your work, you can either:</p><p>1. view this on the public writable gateway at <a href=\"https://hardbin.com" + pathwithfrag + "\">hardbin.com</a>, or</p><p>2. <a href=\"https://ipfs.io/docs/install/\">install IPFS</a>, run a local node with <tt>ipfs daemon --writable</tt>, and then view this on your local node at <a href=\"http://localhost:8080" + pathwithfrag + "\">localhost:8080</a>.</p>");
-            set_status("Error: IPFS gateway is not writable.");
-        }
-    });
-}
-
-function render(content) {
-    $('#input').val(content);
-    $('#input').prop('readonly',true);
-
-    $('#top-save').hide();
-    $('#top-edit').show();
-}
-
-function unrender() {
-    $('#input').prop('readonly',false);
-
-    $('#top-save').show();
-    $('#top-edit').hide();
-}
-
-function show_pin_instructions() {
-    var pathwithfrag = window.location.pathname + '#' + decryption_key;
-    var fulllocation = window.location.href;
-    var hash = window.location.pathname;
-    hash = hash.replace('/ipfs/', '');
-    hash = hash.replace('/', '');
-    fulllocation = fulllocation.replace('-firstview', '');
-    var is_hardbincom = window.location.hostname == 'hardbin.com';
-    modal("Content published", "<p>Congratulations! Your content has been published to the IPFS gateway. It is now reachable by any node on the IPFS network. Share the following URL to share the content:</p><p><a style=\"word-wrap:break-word\" href=" + fulllocation + ">" + fulllocation + "</a></p>" + (!is_hardbincom ? "<p>Or on the hardbin.com public gateway: <a style=\"word-wrap:break-word\" href=\"https://hardbin.com" + pathwithfrag + "\">https://hardbin.com" + pathwithfrag + "</a></p>" : '') + "<p>The IPFS hash is <b>" + hash + "</b> and the decryption key is <b>" + decryption_key + "</b>.</p><p>Content on IPFS is not persistent and will eventually disappear from the IPFS network if it is not pinned anywhere (equivalent to \"seeding\" in bittorrent). To make the content persistent, you can either pin it on an IPFS node you control:</p><p><tt>$ ipfs pin add " + hash + "</tt></p><p>Or use a service like IPFSstore to pin it for you:</p><a href=\"https://ipfsstore.it/submit.php?hash=" + hash + "\" class=\"btn btn-primary\">Pin on IPFSstore</a>");
-}
-
-function load_content() {
-    if (window.location.hash && window.location.hash != '#about') {
-        set_status("Loading encrypted content...");
-        key = window.location.hash;
-        key = key.replace('-firstview','');
-        key = key.replace('#','');
-        decryption_key = key;
-        $.ajax({
-            url: "content",
-            success: function(data) {
-                // TODO: show an error if we couldn't decrypt the content?
-                var plain = decrypt(data,key);
-                if (plain) {
-                    render(plain);
-                    if (window.location.hash.indexOf('firstview') != -1)
-                        show_pin_instructions();
-                    history.replaceState(undefined, undefined, '#' + decryption_key);
-                }
-                set_status("");
-            },
-            error: function() {
-                check_writability();
-            },
-            timeout: function() {
-                check_writability();
-            }
-        });
-    } else {
-        check_writability();
-    }
-}
-
-$('#top-save').click(function() {
-    var key = generate_key();
-    write(encrypt($('#input').val(), key), function(hash) {
-        if (!hash) {
-            set_status("Error: Failed to store content. Is the gateway writable?");
-        } else {
-            window.location = '/ipfs/' + hash + '#' + key + '-firstview';
-        }
-    });
-});
-
-$('#top-edit').click(function() {
-    unrender();
-    $('#input').focus();
-    check_writability();
-});
-
-$('#about').click(function(e) {
-    e.preventDefault();
-    $('#about-modal').modal('show');
-    history.replaceState(undefined, undefined, '#about');
-});
-
-$('#about-modal').on('hide.bs.modal', function() {
-    history.replaceState(undefined, undefined, '#' + decryption_key);
-});
-
-$(document).ready(function() {
-    load_content();
-
-    // load the README modal, and show it if the fragment is #about
-    $.ajax({
-        url: "README.md",
-        success: function(data) {
-            var c = new showdown.Converter();
-            $('#about-body').html(c.makeHtml(data));
-            if (window.location.hash == '#about') {
-                $('#about-modal').modal('show');
-            }
-        },
-    });
-});
-</script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/aes.js"></script>
+    <script src="js/jsbn.js"></script>
+    <script src="js/jsbn2.js"></script>
+    <script src="js/base58.js"></script>
+    <script src="js/hardbin2.js"></script>
+    <script src="js/showdown.min.js"></script>
+    <script src="js/main.js">
+    </script>
 </body>
+
 </html>
