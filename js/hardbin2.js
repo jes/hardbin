@@ -1,3 +1,12 @@
+import IpfsApi from './ipfs-api.js';
+// import {Buffer} from './ipfs-api.js';
+import {from_b58, to_b58} from './base58.2.js';
+const Buffer = require('buffer/').Buffer
+// import('./ipfs-api.js').then(e => {
+  // console.log(e)
+  // console.log(e.IpfsApi)
+// })
+
 function b2text(blob) {
   return new Promise(resolve => {
     const fr = new FileReader();
@@ -17,7 +26,7 @@ function b2url(blob) {
 function b2ab(blob) {
   return new Promise(resolve => {
     const fr = new FileReader();
-    fr.onload = () => resolve(fr.result);
+    fr.onload = (evt) => resolve(new Uint8Array(evt.target.result));
     fr.readAsArrayBuffer(blob);
   });
 }
@@ -34,11 +43,11 @@ async function encrypt(data, key, name, type) {
   let iv = crypto.getRandomValues(new Uint8Array(12));
   let alg = { name: "AES-GCM", iv: iv };
 
-  let cyphertext = await crypto.subtle.encrypt(alg, key, data);
+  let ciphertext = await crypto.subtle.encrypt(alg, key, data);
 
   return {
     iv,
-    cyphertext,
+    ciphertext,
     name,
     type
   };
@@ -46,7 +55,7 @@ async function encrypt(data, key, name, type) {
 
 async function decrypt(iv, key, data) {
   let alg = { name: "AES-GCM", iv: iv };
-  return  await crypto.subtle.decrypt(alg, key, data);
+  return await crypto.subtle.decrypt(alg, key, data);
 }
 
 async function do_encryption(file, name) {
@@ -55,43 +64,34 @@ async function do_encryption(file, name) {
     ? name
     : file.name
       ? file.name
-      : `Pasted ${extension[0]}.${
-          extension[1] == "plain" ? "txt" : extension[1]
-        }`;
+      : `Pasted ${extension[0]}`;
 
   let key = await generate_key();
-  // let key_export = crypto.subtle
-  // .exportKey("raw", key)
-  // .then(raw => {
-  // b2url(new Blob([raw]));
-  // })
-  // .then(url => url.split(",").slice(-1)[0]);
-
   let header = {
     name,
     type: file.type
   };
-  let blob = new Blob([new Uint16Array([header.size]), header, file]);
+  let encoded = new Blob([JSON.stringify(header)])
+  
+  let blob = new Blob([new Uint16Array([encoded.size]), encoded, file]);
 
-  let { iv, cyphertext, ...result } = await encrypt(await b2ab(blob), key);
+  let { iv, ciphertext, ...result } = await encrypt(await b2ab(blob), key);
 
-  let key_export = await crypto.subtle.exportKey("raw", key);
-  // key_export = await b2url(new Blob([iv, key]));
-  // key_export = key_export.split(",").slice(-1)[0];
+  let key_export = new Uint8Array(await crypto.subtle.exportKey("raw", key));
   let merged = new Uint8Array(iv.length + key_export.length);
   merged.set(iv);
   merged.set(key_export, iv.length);
 
   return {
-    data: cyphertext,
+    data: ciphertext,
     key: to_b58(merged)
   };
 }
 
 async function do_decryption(data, key) {
   let merged = from_b58(key);
-  let iv = Uint8Array(merged, 0, 12);
-  let raw = Uint8Array(merged, 12);
+  let iv = merged.slice(0, 12);
+  let raw = merged.slice(12);
 
   key = await crypto.subtle.importKey(
     "raw",
@@ -102,12 +102,11 @@ async function do_decryption(data, key) {
   );
 
   let result = await decrypt(iv, key, data);
-  let view = new DataView(result.data);
+  let view = new DataView(result);
   let sz = view.getUint16(0, true);
-  let header = await b2text(new Blob([result.data.slice(1, sz + 1)]));
+  let header = new TextDecoder().decode(result.slice(2, sz + 2));
   let { name, type } = JSON.parse(header);
-
-  data = result.data.slice(sz + 1);
+  data = result.slice(sz + 2);
 
   return {
     name,
@@ -119,31 +118,49 @@ async function do_decryption(data, key) {
 let is_local_gateway = () => window.location.hostname == "localhost";
 
 async function can_write() {
-  return (await write("testing 123")) != "";
+  return (await write(new TextEncoder().encode("testing 123"))) != "";
 }
 
 function write(content) {
+  // console.log('imported:'+IpfsApi)
+  // const ipfs = new window.IpfsApi()
+  console.log('buf'+IpfsApi.Buffer)
+  
+  const ipfs = IpfsApi()
+
   return new Promise(async resolve => {
     try {
-      console.log('1');
-      let [, , xhr] = await $.ajax({
-        url: "content",
-        type: "DELETE"
-      }).then((...args) => args);
-      console.log('2');
+      console.log('1:'+content);
+      console.log(ipfs)
+      let result = await ipfs.files.add(Buffer.from(content))
+      console.log(result)
+      let hash = result[0].hash
+      console.log('2:'+hash);
       
-      [, , xhr] = await $.ajax({
-        url: "/ipfs/" + xhr.getResponseHeader("Ipfs-Hash") + "/content",
-        type: "PUT",
-        data: content
-      }).then((...args) => args);
-      console.log('3');
-      
-      resolve(xhr.getResponseHeader("Ipfs-Hash"));
+      resolve(hash);
     } catch (error) {
-      console.log('4');
+      console.log('4'+error);
       
       resolve("");
     }
   });
 }
+
+function handle_event(object) {
+  let text = object.getData('text')
+  if( text ){
+    // pack the text for encrypting
+    return new Blob([text], {type: 'text/plain'})
+  }
+  if(object.files.length > 0){
+    // let's just take the first
+    return object.files[0]
+  }
+
+  // empty drop
+  return undefined
+}
+
+export {b2text, b2url, b2ab}
+export {encrypt, decrypt, generate_key, do_decryption, do_encryption}
+export {handle_event, write, can_write}

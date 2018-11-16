@@ -1,3 +1,5 @@
+import {handle_event, can_write} from './hardbin2.js'
+
 let writability_checked = false;
 let decryption_key = "";
 
@@ -204,7 +206,7 @@ $("#about-modal").on("hide.bs.modal", () => {
 
 // start
 
-$(document).ready( () => async function() {
+document.addEventListener('DOMContentLoaded', async () => {
   console.log("ready")
   load_content();
 
@@ -214,30 +216,31 @@ $(document).ready( () => async function() {
   if (window.location.hash == "#about") {
     $("#about-modal").modal("show");
   }
-}());
+});
 
-$("#input").on('dragenter', e => {
+document.getElementById("input").addEventListener('dragenter', e => {
   e.dataTransfer = e.originalEvent.dataTransfer;
   e.preventDefault()
   console.log('dragenter')
   console.log(e.dataTransfer)
 });
 
-$("#input").on('dragleave', e => {
+document.getElementById("input").addEventListener('dragleave', e => {
   e.dataTransfer = e.originalEvent.dataTransfer;
   e.preventDefault()
   console.log('dragleave')
 });
 
-$("#input").on('drop', e =>{
+document.getElementById("input").addEventListener('drop', e =>{
+  console.log('drop')
   e.dataTransfer = e.originalEvent.dataTransfer;
   e.preventDefault()
-  console.log('drop')
-  console.log(e.dataTransfer.types)
-  console.log(e.dataTransfer.files)
+  let file = handle_event(e.dataTransfer)  
 })
 
-$(document).on('paste', e => {
+document.addEventListener('paste', e => {
+  e.preventDefault()
   console.log('paste')
   console.log(e)
+  let file = handle_event(e.dataTransfer)
 })

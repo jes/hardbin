@@ -35,7 +35,7 @@ function from_b58(
   string, //Base58 encoded string input
   alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 ) {
-  var d = [], //the array for storing the stream of decoded bytes
+  let d = [], //the array for storing the stream of decoded bytes
     b = [], //the result byte array that will be returned
     i, //the iterator variable for the base58 string
     j, //the iterator variable for the byte array (d)
@@ -44,7 +44,7 @@ function from_b58(
   for (i in string) {
     //loop through each base58 character in the input string
     (j = 0), //reset the byte iterator
-      (c = alphabet.indexOf(S[i])); //set the initial carry amount equal to the current base58 digit
+      (c = alphabet.indexOf(string[i])); //set the initial carry amount equal to the current base58 digit
     if (c < 0)
       //see if the base58 digit lookup is invalid (-1)
       return undefined; //if invalid base58 digit, bail out and return undefined
@@ -64,3 +64,5 @@ function from_b58(
     b.push(d[j]); //append each byte to the result
   return new Uint8Array(b); //return the final byte array in Uint8Array format
 }
+
+export {to_b58, from_b58}

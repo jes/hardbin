@@ -1,6 +1,6 @@
 /* based on https://github.com/jbenet/go-base58/blob/master/base58.go */
 
-var base58 = {
+export default base58 = {
     alphabet: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz",
     bigRadix: new BigInteger("58"),
 
