@@ -1,79 +1,138 @@
-html, body {
-    height: 100%;
-    min-height: 400px;
+html,
+body {
+  flex-grow: 1;
+  height: 100%;
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
-    margin: 0;
-    font-weight: bold;
+  margin: 0;
+  font-weight: 700;
+  font-size: 36px;
 }
 
 #title-div h1 {
-    text-shadow: 0px 0px 8px rgba(255, 243, 40, 0.6);
+  text-shadow: 0px 0px 8px rgba(255, 243, 40, 0.6);
 }
 
 #container {
-    padding-top: 45px;
-    height: 100%;
-}
-
-#nav, #input-div {
-    position: relative;
-    float: left;
-    width: 100%;
-    color: rgb(255, 243, 40);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: rgb(34, 61, 74);
 }
 
 #nav {
-    background: rgb(34, 61, 74);
-    margin-top: -45px;
-    height: 45px;
-}
-
-#input-div, #textarea-div {
-    background: rgb(55,68,74);
-    height: 100%;
-    padding: 0;
-    margin: 0;
-}
-
-textarea#input {
-    height: 100%;
-    font-family: monospace;
-    background: rgb(55,68,74);
-    color: rgb(255,243,40);
-    border: 1px solid rgb(255,243,40);
-}
-
-textarea#input:focus {
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255,243,40,.6);
-}
-
-textarea#input::placeholder {
-    color: rgba(255,243,40,0.4);
-}
-
-#title-div, #status-div {
-    padding-right: 10px;
-    float: left;
-}
-
-#title-div, #controls-div {
-    padding-top: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
+  display: flex;
+  color: rgb(255, 243, 40);
+  background: rgb(34, 61, 74);
+  height: 45px;
 }
 
 #status-div {
-    padding-top: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-end;
 }
 
+#title-div,
 #controls-div {
-    float: right;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#status-div {
+  flex-grow: 1;
+}
+
+#prog-div {
+  height: 3px;
+  margin-bottom: 2px;
+}
+
+#progbar {
+  height: 100%;
+  width: 0%;
+  background: red;
+}
+
+#input-div {
+  flex-grow: 1;
+  background: rgb(55, 68, 74);
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border: 1px solid rgb(255, 243, 40);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#content-div {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#content-div video,
+#content-div img {
+  border: 1px solid rgb(128, 128, 128);
+  max-height: 100%;
+  max-width: 100%;
+}
+
+#content-div audio {
+  border: 1px solid rgb(128, 128, 128);
+}
+
+#code-div {
+  flex-grow: 1;
+  align-self: stretch;
+  margin: 10px;
+}
+
+#code-div code {
+  text-align: left;
+  color: white;
+  font-family: monospace;
+}
+
+#input {
+  flex-grow: 1;
+  align-self: stretch;
+
+  font-family: monospace;
+  background: rgb(55, 68, 74);
+  color: rgb(255, 243, 40);
+  border: 0px;
+  margin: 0;
+  padding: 6px;
+}
+
+#input:focus {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+    0 0 8px rgba(255, 243, 40, 0.6);
+}
+
+#input::placeholder {
+  color: rgba(255, 243, 40, 0.4);
+}
+
+#button-div {
+  align-self: center;
 }
 
 @media screen and (min-width: 768px) {
-    .wide-modal {
-        width: 75%;
-    }
+  .wide-modal {
+    width: 75%;
+  }
 }
