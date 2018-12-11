@@ -1,91 +1,94 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title>Hardbin</title>
-    <link rel="icon" href="img/h.png">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/hardbin.css">
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="container">
-        <div id="nav">
-            <div id="title-div">
-                <h1>hardbin.</h1>
-            </div>
+      <div id="nav">
+        <div id="title-div"><h1>hardbin.</h1></div>
 
-            <div id="status-div">
-                <span id="status">Loading...</span>
-            </div>
-
-            <div id="controls-div">
-                <button class="btn btn-default" id="about">About</button> |
-                <a class="btn btn-default" href=".">New</a>
-                <button class="btn btn-primary" id="top-upload">Upload</button> 
-                <button class="btn btn-primary" id="top-save">Publish</button>
-                <button class="btn btn-primary" id="top-edit" style="display:none">Edit</button>
-            </div>
-
+        <div id="status-div">
+          <span id="status">Loading...</span>
+          <div id="prog-div"><div id="progbar"></div></div>
         </div>
 
-        <div style="clear:both"></div>
-
-        <div id="input-div">
-            <div id="textarea-div">
-                <textarea autofocus rows="10" class="form-control" id="input" placeholder="Input your text here, then click Publish."></textarea>
-            </div>
-            <div id="content-div" class="hidden"></div>
+        <div id="controls-div">
+          <button class="btn btn-secondary" id="about">About</button> |
+          <a class="btn btn-secondary" href=".">New</a>
+          <button class="btn btn-primary" id="top-upload">Upload</button>
+          <button class="btn btn-primary" id="top-save">Publish</button>
+          <button class="btn btn-primary" id="top-edit" style="display:none">
+            Edit
+          </button>
         </div>
+      </div>
+
+      <div id="input-div" class="form-control">
+        <textarea
+          class="content"
+          autofocus
+          rows="10"
+          id="input"
+          placeholder="Input your text here, then click Publish."
+        ></textarea>
+        <div id="code-div" class="d-none content">
+          <pre><code id="code"></code></pre>
+        </div>
+        <div id="content-div" class="d-none content"></div>
+        <div id="button-div" class="d-none content">
+          <button id="download-button" class="btn btn-primary">download</button>
+        </div>
+      </div>
     </div>
 
-    <div id="about-modal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog wide-modal" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body" id="about-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
+    <div id="about-modal" class="modal fade d-none" tabindex="-1" role="dialog">
+      <div class="modal-dialog wide-modal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body" id="about-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
-    <div id="modal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog wide-modal" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="modal-title">Modal title</h4>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    Modal body.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
+    <div id="modal" class="modal fade d-none" tabindex="-1" role="dialog">
+      <div class="modal-dialog wide-modal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="modal-title">Modal title</h4>
+          </div>
+          <div class="modal-body" id="modal-body">Modal body.</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/aes.js"></script>
-    <script src="js/jsbn.js"></script>
-    <script src="js/jsbn2.js"></script>
-    <!-- <script src="js/base58.js"></script> -->
-    <!-- <script src="js/hardbin2.js"></script> -->
-    <script src="js/showdown.min.js"></script>
-    <script src="js/main.js" type="module">
-    </script>
-</body>
-
+  </body>
 </html>
