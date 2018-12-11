@@ -1,20 +1,41 @@
 {
   "name": "hardbin",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "1.5.0",
+  "private": true,
   "repository": "https://github.com/jes/hardbin",
   "author": "Brian Parma <execrable@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "webpack --env.prod",
+    "test": "webpack --env.test",
+    "test:live": "webpack-dev-server --env.test",
+    "watch": "webpack --watch --env.dev",
+    "start": "webpack-dev-server --open"
+  },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-jest": "^22.4.3",
-    "babel-preset-env": "^1.6.1",
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/register": "^7.0.0",
     "chai": "^4.1.2",
-    "karma": "^2.0.2",
-    "karma-chai": "^0.1.0",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-mocha": "^1.3.0",
+    "clean-webpack-plugin": "^1.0.0",
+    "css-loader": "^1.0.1",
+    "html-webpack-plugin": "^3.2.0",
     "mocha": "^5.1.1",
-    "regenerator-runtime": "^0.11.1"
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-config-utils": "^2.3.1",
+    "webpack-dev-server": "^3.1.10"
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.3",
+    "bs58": "^4.0.1",
+    "highlight.js": "^9.13.1",
+    "ipfs": "^0.33.1",
+    "ipfs-api": "^26.1.2",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.6",
+    "showdown": "^1.9.0"
   }
 }
