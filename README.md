@@ -50,7 +50,7 @@ on how to make it work.
 
 The content will need to be pinned to make sure it stays
 around for long term (the same as any content stored in
-IPFS). [IPFSstore](https://ipfsstore.it/) is a service offering to pin
+IPFS). [Pinata](https://pinata.cloud/) is a service offering to pin
 content for a very, *very* small fee. Failing that, content will stay
 around as long as it is cached on any node (e.g. a public gateway).
 
