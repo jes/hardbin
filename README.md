@@ -13,7 +13,7 @@ hardbin.com public IPFS gateway. The IPFS gateway you use has the same
 capabilities as an ordinary web server (i.e. it can modify content at
 will), so you should make sure to use a gateway you trust. Running
 a local gateway is the best option. Start with the IPFS [Getting
-Started](https://ipfs.io/docs/getting-started/) guide.
+Started](https://docs.ipfs.io/how-to/command-line-quick-start/) guide.
 
 Compared to a traditional encrypted pastebin (e.g.
 [ZeroBin](https://zerobin.net)), when used over a trusted gateway, neither
@@ -63,8 +63,8 @@ load the latest version of the code and show the README text.
 
 A local gateway that you run yourself is the safest way to use hardbin.
 
-Follow the <a href="https://ipfs.io/docs/getting-started/">IPFS Getting
-Started guide</a>, but make sure to run the gateway with ```ipfs daemon
+Follow the [IPFS Getting
+Started guide](https://docs.ipfs.io/how-to/command-line-quick-start/), but make sure to run the gateway with ```ipfs daemon
 --writable```, else you won't be able to publish anything.
 
 You can then install a browser extension such as <a
