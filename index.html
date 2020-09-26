@@ -74,14 +74,14 @@
     </div>
 </div>
 
-<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/aes.js"></script>
 <script src="js/jsbn.js"></script>
 <script src="js/jsbn2.js"></script>
 <script src="js/base58.js"></script>
 <script src="js/hardbin.js"></script>
-<script src="js/showdown.min.js"></script>
+<script src="js/showdown-1.9.0.min.js"></script>
 <script type="text/javascript">
 var checked_writability = false;
 
@@ -109,7 +109,7 @@ function check_writability() {
         } else {
             var pathwithfrag = window.location.pathname + window.location.hash;
             // TODO: check if we can fetch ipfs content from http://localhost:8080/ and offer it as an option if so
-            modal("IPFS Gateway Problem", "<p>This IPFS gateway is not writable, which means you won't be able to save your work.</p><p>If you want to save your work, you can either:</p><p>1. view this on the public writable gateway at <a href=\"https://hardbin.com" + pathwithfrag + "\">hardbin.com</a>, or</p><p>2. <a href=\"https://ipfs.io/docs/install/\">install IPFS</a>, run a local node with <tt>ipfs daemon --writable</tt>, and then view this on your local node at <a href=\"http://localhost:8080" + pathwithfrag + "\">localhost:8080</a>.</p>");
+            modal("IPFS Gateway Problem", "<p>This IPFS gateway is not writable, which means you won't be able to save your work.</p><p>If you want to save your work, you can either:</p><p>1. view this on the public writable gateway at <a href=\"https://hardbin.com" + pathwithfrag + "\">hardbin.com</a>, or</p><p>2. <a href=\"https://docs.ipfs.io/guides/guides/install/\">install IPFS</a>, run a local node with <tt>ipfs daemon --writable</tt>, and then view this on your local node at <a href=\"http://localhost:8080" + pathwithfrag + "\">localhost:8080</a>.</p>");
             set_status("Error: IPFS gateway is not writable.");
         }
     });
