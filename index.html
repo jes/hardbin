@@ -45,8 +45,6 @@
             <p>Unlike other pastebins, Hardbin does not require you to trust any server. You can run a local <a href="https://ipfs.io/">IPFS</a>
             gateway and then you can always be certain that no remote server is able to modify the code you're running. In particular, this
             means no remote server is able to insert malicious code to exfiltrate the content of your pastes.</p>
-            <p>There is a public writable gateway available at <a href="https://hardbin.com/">hardbin.com</a> which allows creation of pastes
-            without running a local gateway.</p>
             <p>If you want to learn more, please see <a href="README.md">README.md</a>.</p>
             <p>If you want to contribute to Hardbin development, please see the <a href="https://github.com/jes/hardbin/">github repo</a>.</p>
           </div>
@@ -109,7 +107,7 @@ function check_writability() {
         } else {
             var pathwithfrag = window.location.pathname + window.location.hash;
             // TODO: check if we can fetch ipfs content from http://localhost:8080/ and offer it as an option if so
-            modal("IPFS Gateway Problem", "<p>This IPFS gateway is not writable, which means you won't be able to save your work.</p><p>If you want to save your work, you can either:</p><p>1. view this on the public writable gateway at <a href=\"https://hardbin.com" + pathwithfrag + "\">hardbin.com</a>, or</p><p>2. <a href=\"https://ipfs.io/docs/install/\">install IPFS</a>, run a local node with <tt>ipfs daemon --writable</tt>, and then view this on your local node at <a href=\"http://localhost:8080" + pathwithfrag + "\">localhost:8080</a>.</p>");
+            modal("IPFS Gateway Problem", "<p>This IPFS gateway is not writable, which means you won't be able to save your work.</p><p>If you want to save your work, you can either:</p><p>1. view this on the public writable gateway, or</p><p>2. <a href=\"https://ipfs.io/docs/install/\">install IPFS</a>, run a local node with <tt>ipfs daemon --writable</tt>, and then view this on your local node at <a href=\"http://localhost:8080" + pathwithfrag + "\">localhost:8080</a>.</p>");
             set_status("Error: IPFS gateway is not writable.");
         }
     });
@@ -137,8 +135,7 @@ function show_pin_instructions() {
     hash = hash.replace('/ipfs/', '');
     hash = hash.replace('/', '');
     fulllocation = fulllocation.replace('-firstview', '');
-    var is_hardbincom = window.location.hostname == 'hardbin.com';
-    modal("Content published", "<p>Congratulations! Your content has been published to the IPFS gateway. It is now reachable by any node on the IPFS network. Share the following URL to share the content:</p><p><a style=\"word-wrap:break-word\" href=" + fulllocation + ">" + fulllocation + "</a></p>" + (!is_hardbincom ? "<p>Or on the hardbin.com public gateway: <a style=\"word-wrap:break-word\" href=\"https://hardbin.com" + pathwithfrag + "\">https://hardbin.com" + pathwithfrag + "</a></p>" : '') + "<p>The IPFS hash is <b>" + hash + "</b> and the decryption key is <b>" + decryption_key + "</b>.</p><p>Content on IPFS is not persistent and will eventually disappear from the IPFS network if it is not pinned anywhere (equivalent to \"seeding\" in bittorrent). To make the content persistent, you can either pin it on an IPFS node you control:</p><p><tt>$ ipfs pin add " + hash + "</tt></p><p>Or use a service like Pinata to pin it for you:</p><a href=\"https://pinata.cloud\" class=\"btn btn-primary\">Learn about Pinata</a>");
+    modal("Content published", "<p>Congratulations! Your content has been published to the IPFS gateway. It is now reachable by any node on the IPFS network. Share the following URL to share the content:</p><p><a style=\"word-wrap:break-word\" href=" + fulllocation + ">" + fulllocation + "</a></p><p>The IPFS hash is <b>" + hash + "</b> and the decryption key is <b>" + decryption_key + "</b>.</p><p>Content on IPFS is not persistent and will eventually disappear from the IPFS network if it is not pinned anywhere (equivalent to \"seeding\" in bittorrent). To make the content persistent, you can either pin it on an IPFS node you control:</p><p><tt>$ ipfs pin add " + hash + "</tt></p><p>Or use a service like Pinata to pin it for you:</p><a href=\"https://pinata.cloud\" class=\"btn btn-primary\">Learn about Pinata</a>");
 }
 
 function load_content() {

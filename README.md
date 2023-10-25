@@ -8,8 +8,7 @@ in the URL fragment, and the code and data served securely with
 storage system that is web-compatible; it's basically bittorrent for
 the web).
 
-If you're viewing this on hardbin.com, then you're using it via the
-hardbin.com public IPFS gateway. The IPFS gateway you use has the same
+The IPFS gateway you use has the same
 capabilities as an ordinary web server (i.e. it can modify content at
 will), so you should make sure to use a gateway you trust. Running
 a local gateway is the best option. Start with the IPFS [Getting
@@ -31,17 +30,13 @@ it over a local (or otherwise trusted) gateway. If you access it over
 a gateway that you do not control, then the security model degrades to
 be equivalent to that of traditional encrypted pastebins.
 
-If you trust the hardbin.com server and hosting company and the HTTPS CA
-infrastructure, then you can always find the latest version of hardbin
-by going straight to [hardbin.com](https://hardbin.com/).
-
 The [github repo](https://github.com/jes/hardbin) should also link
 directly to the latest IPFS hash.
 
-It doesn't matter which IPFS gateway is used to access hardbin.com, but
+It doesn't matter which IPFS gateway is used to access hardbin, but
 you won't be able to publish anything unless you use a writable gateway
-(i.e. ```ipfs daemon --writable```). I am operating a public writable
-gateway on hardbin.com to smooth the user experience. But remember that
+(i.e. ```ipfs daemon --writable```).
+But remember that
 using a public gateway means you are trusting the public gateway not to
 ship malicious code to (for example) exfiltrate the plaintext.
 
@@ -55,9 +50,7 @@ content for a very, *very* small fee. Failing that, content will stay
 around as long as it is cached on any node (e.g. a public gateway).
 
 If you want to share a link to hardbin which will automatically
-load this README, append ```#about``` as the fragment. For example,
-[https://hardbin.com/#about](https://hardbin.com/#about) will always
-load the latest version of the code and show the README text.
+load this README, append ```#about``` as the fragment.
 
 ### Local gateway
 
@@ -83,10 +76,6 @@ exfiltrate content (or do anything else it shouldn't).
 
 A writable public gateway will work fine for viewing and publishing,
 but you're still trusting the public gateway not to insert malicious code.
-
-Using the writable public gateway at [hardbin.com](https://hardbin.com/)
-presents largely the same trust model as other encrypted pastebin
-services.
 
 ## How it works
 
@@ -122,7 +111,7 @@ If you want to use any custom modifications, you can simply make them,
 publish your new code on IPFS with ```ipfs add```, and then it's
 available and ready to use. It's just as much a first-class citizen as
 the version in this git repo, and you're equally welcome to access it
-via the hardbin.com public writable gateway.
+via a public writable gateway.
 
 Of course, pull requests are always welcome for improvements that might
 be useful to others.
